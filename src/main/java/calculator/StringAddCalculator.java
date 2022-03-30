@@ -8,12 +8,15 @@ import java.util.regex.Pattern;
 
 public class StringAddCalculator {
 
-    public static final String DEFAULT_CALC_REGEX = ":|,";
-    public static final String CUSTOM_CALC_REGEX = "//(.)\\n(.*)";
-
     public int splitAndSum(String input){
+        if(isEmptyOrNull(input)){
+            return 0;
+        }
         String[] tokens = getNums(input);
         return getSumOfNumsOrThrow(tokens);
+    }
+    private boolean isEmptyOrNull(String input){
+        return input == null || input.equals("");
     }
 
     private String[] getNums(String input) {
@@ -45,22 +48,28 @@ public class StringAddCalculator {
     }
     private String[] getNumsByDefaultOrThrow(String input) {
         String[] validResult;
-        validResult = validPositive(input.split(DEFAULT_CALC_REGEX));
+        validResult = validNotNegative(input.split(":|,"));
         return validResult;
     }
 
-
     private String[] getNumsByCustom(String input) {
-        Matcher matcher = Pattern.compile(CUSTOM_CALC_REGEX).matcher(input);
+        Matcher matcher = Pattern.compile("//(.)\\n(.*)").matcher(input);
         String[] tokens = null;
 
         if (matcher.find()) {
-            String customDelimiter = matcher.group(1);
+            String customDelimiter = validDelimiter(matcher.group(1));
             tokens = matcher.group(2).split(customDelimiter);
         }
-        return validPositive(tokens);
+        return validNotNegative(tokens);
     }
-    private String[] validPositive(String[] input){
+    private String validDelimiter(String input) {
+        Matcher matcher = Pattern.compile("[\\W]").matcher(input);
+        if(!matcher.matches()){
+            throw new InvalidInputException(ErrorCode.BAD_DELIMITER_FORMAT);
+        }
+        return input;
+    }
+    private String[] validNotNegative(String[] input){
         for (String str : input) {
             throwIfNegativeNum(str);
         }
@@ -89,17 +98,5 @@ public class StringAddCalculator {
         return sum;
     }
 
-    public boolean isSymbol(String input) {
-        Matcher matcher = Pattern.compile("[\\W]").matcher(getDelimiter(input));
-        return matcher.matches();
-    }
-    private String getDelimiter(String input) {
-        Matcher matcher = Pattern.compile("//(.)\\n(.*)").matcher(input);
-        String customDelimiter = "";
-        if(matcher.find()){
-            customDelimiter = matcher.group(1);
-        }
-        return customDelimiter;
-    }
 
 }

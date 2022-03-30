@@ -1,5 +1,6 @@
 package calculator;
 
+import calculator.exception.ErrorCode;
 import calculator.exception.InvalidInputException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,10 +12,23 @@ import static org.assertj.core.api.Assertions.*;
 public class StringAddCalculatorTest {
     StringAddCalculator addCal = new StringAddCalculator();
 
+    @Test
+    public void splitAndSum_null_또는_빈문자() {
+        int result = addCal.splitAndSum(null);
+        assertThat(result).isEqualTo(0);
 
+        result = addCal.splitAndSum("");
+        assertThat(result).isEqualTo(0);
+    }
 
     @Test
-    void splitAndSum_커스텀_구분자() throws Exception{
+    public void splitAndSum_숫자하나() throws Exception {
+        int result = addCal.splitAndSum("1");
+        assertThat(result).isEqualTo(1);
+    }
+
+    @Test
+    void splitAndSum_커스텀_구분자() throws Exception {
         //given
         String input = "//;\n5;3;4";
 
@@ -26,7 +40,7 @@ public class StringAddCalculatorTest {
     }
 
     @Test
-    void splitAndSum_쉼표_또는_콜론_구분자() throws Exception{
+    void splitAndSum_쉼표_또는_콜론_구분자() throws Exception {
         //given
         String input = "5:3,1:4:1,1";
 
@@ -38,7 +52,7 @@ public class StringAddCalculatorTest {
     }
 
     @Test
-    void splitAndSum_쉼표_구분자() throws Exception{
+    void splitAndSum_쉼표_구분자() throws Exception {
         //given
         String input = "5,3,4,1";
 
@@ -50,7 +64,8 @@ public class StringAddCalculatorTest {
     }
 
     @Test
-    void splitAndSum_콜론_구분자() throws Exception{
+    void splitAndSum_콜론_구분자() throws Exception {
+
         //given
         String input = "5:1:1";
 
@@ -63,57 +78,32 @@ public class StringAddCalculatorTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"//!\n5!3!-4", "//;\n-5;3;4", "//;\n5;-1;3;4", "5,-3,1", "-1,3,3,2", "1,3,3,-2"})
-    void splitAndSum_음수_예외(String input){
-        //when
-
+    void splitAndSum_음수_예외(String input) throws Exception {
         assertThatThrownBy(() -> addCal.splitAndSum(input))
                 .isInstanceOf(InvalidInputException.class)
-                .hasMessageContaining("음수는 계산할 수 없습니다.");
+                .hasMessageContaining(ErrorCode.NEGATIVE_NUMBER_INPUT.getMessage());
     }
+
     @ParameterizedTest
     @ValueSource(strings = {"//!\n5;3!4", "//;\n5+3+4", "//;\n5;1;3/4", "5,3+1", "1+3,3,2", "1,3+3,2"})
-    void splitAndSum_잘못된_입력_예외(String input){
+    void splitAndSum_잘못된_입력_예외(String input) throws Exception{
         assertThatThrownBy(() -> addCal.splitAndSum(input))
                 .isInstanceOf(InvalidInputException.class)
-                .hasMessageContaining("입력이 잘못되었습니다.");
+                .hasMessageContaining(ErrorCode.INVALID_INPUT.getMessage());
     }
+
     @ParameterizedTest
-    @ValueSource(strings = {"//!\n5;3!4", "//;\n5+3+4", "//;\n5;1;3/4", "5,3+1", "1+3,3,2", "1,3+3,2"})
-    void splitAndSum_빈문자와_null(String input){
-
-    }
-    @ParameterizedTest
-    @ValueSource(strings = {"//!\n5;3!4", "//;\n5+3+4", "//;\n5;1;3/4", "5,3+1", "1+3,3,2", "1,3+3,2"})
-    void splitAndSum_숫자_하나(String input){
-
-    }
-    @Test
-    void isSymbol_기호일때(){
-        //given
-        String input = "//;\n5;3;4";
-
-        //when
-        boolean isSymbol = addCal.isSymbol(input);
-
-        //then
-        assertThat(isSymbol).isTrue();
-    }
-    @Test
-    void isSymbol_기호_아닐때(){
-        //given
-        String input = "//a\n5;3;4";
-
-        //when
-        boolean isSymbol = addCal.isSymbol(input);
-
-        //then
-        assertThat(isSymbol).isFalse();
+    @ValueSource(strings = {"//A\n5;3!4", "//1\n5+3+4", "//f\n5;1;3/4"})
+    void splitAndSum_커스텀구분자_숫자나_영문_입력_시_예외(String input) throws Exception{
+        assertThatThrownBy(() -> addCal.splitAndSum(input))
+                .isInstanceOf(InvalidInputException.class)
+                .hasMessageContaining(ErrorCode.BAD_DELIMITER_FORMAT.getMessage());
     }
 
     @DisplayName("getType_입력값이 커스텀 구분자를 사용 테스트")
     @ParameterizedTest
     @ValueSource(strings = {"//;\n5;3;4","//A\n5;3;4","//3\n5;3;4","//f\n5;3;4"})
-    void getType_CUSTOM(String input){
+    void getType_CUSTOM(String input) throws Exception {
         //when
         CalcType calcType = addCal.getType(input);
         //then
@@ -122,7 +112,7 @@ public class StringAddCalculatorTest {
 
     @DisplayName("getType_입력값이 ,|: 구분자를 사용 테스트")
     @Test
-    void getType_DEFAULT(){
+    void getType_DEFAULT() throws Exception {
         //given
         String input = "5:3,1:4,1,1";
 

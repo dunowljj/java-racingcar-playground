@@ -96,10 +96,10 @@ ex) git checkout -b apply-feedback
   - split 자체 예외 -> 구분자 이상할때만 예외나옴
   - 커스텀 구분자가 기호 아니면 예외
   - group값 제대로 안들어올때
-
+  - 마지막이 기호일떄?
 ***
 
-### 3 예외처리
+### 3 일부 예외 처리
 
 - 음수 전달 시 RuntimeException -> 완료
 - split 자체 예외 -> 구분자 이상할때만 예외나옴, 따로 확인 o numberformat 되던짐
@@ -112,6 +112,11 @@ ex) git checkout -b apply-feedback
 
 ***
 
-### 4
+### 4 예외적인 입력값 처리
 
+- 숫자 하나일 때 처리
+- 빈 문자열 또는 null -> 0 반환
+- group1 커스텀 구분자가 영어나 숫자면 예외
+
+***
 # 2. 레이싱 카
