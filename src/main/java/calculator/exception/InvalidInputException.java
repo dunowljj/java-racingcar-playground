@@ -12,4 +12,3 @@ public class InvalidInputException extends RuntimeException{
         message = customMessage;
     }
 }
-
