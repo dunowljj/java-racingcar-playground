@@ -2,7 +2,7 @@ package racingcar;
 
 public class Car {
     private CarName name;
-    private int distance;
+    private int distance = 0;
 
     public Car(String input) {
         name = new CarName(input);
@@ -13,5 +13,14 @@ public class Car {
     }
     public int getDistance() {
         return distance;
+    }
+
+    public void go() {
+        if(isMove()){
+            distance++;
+        }
+    }
+    private boolean isMove(){
+        return (int)(Math.random() * 10) >= 4;
     }
 }

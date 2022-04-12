@@ -30,7 +30,7 @@ public class StringAddCalculatorTest {
     @Test
     void splitAndSum_커스텀_구분자() throws Exception {
         //given
-        String input = "//;\n5;3;4";
+        String input = "//;\\n5;3;4";
 
         //when
         int result = addCal.splitAndSum(input);
@@ -77,7 +77,7 @@ public class StringAddCalculatorTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"//!\n5!3!-4", "//;\n-5;3;4", "//;\n5;-1;3;4", "5,-3,1", "-1,3,3,2", "1,3,3,-2"})
+    @ValueSource(strings = {"//!\\n5!3!-4", "//;\\n-5;3;4", "//;\\n5;-1;3;4", "5,-3,1", "-1,3,3,2", "1,3,3,-2"})
     void splitAndSum_음수_예외(String input) throws Exception {
         assertThatThrownBy(() -> addCal.splitAndSum(input))
                 .isInstanceOf(InvalidInputException.class)
@@ -85,7 +85,7 @@ public class StringAddCalculatorTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"//!\n5;3!4", "//;\n5+3+4", "//;\n5;1;3/4", "5,3+1", "1+3,3,2", "1,3+3,2"})
+    @ValueSource(strings = {"//!\\n5;3!4", "//;\\n5+3+4", "//;\\n5;1;3/4", "5,3+1", "1+3,3,2", "1,3+3,2"})
     void splitAndSum_잘못된_입력_예외(String input) throws Exception{
         assertThatThrownBy(() -> addCal.splitAndSum(input))
                 .isInstanceOf(InvalidInputException.class)
@@ -93,7 +93,7 @@ public class StringAddCalculatorTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"//A\n5;3!4", "//1\n5+3+4", "//f\n5;1;3/4"})
+    @ValueSource(strings = {"//A\\n5;3!4", "//1\\n5+3+4", "//f\\n5;1;3/4"})
     void splitAndSum_커스텀구분자_숫자나_영문_입력_시_예외(String input) throws Exception{
         assertThatThrownBy(() -> addCal.splitAndSum(input))
                 .isInstanceOf(InvalidInputException.class)
@@ -102,7 +102,7 @@ public class StringAddCalculatorTest {
 
     @DisplayName("getType_입력값이 커스텀 구분자를 사용 테스트")
     @ParameterizedTest
-    @ValueSource(strings = {"//;\n5;3;4","//A\n5;3;4","//3\n5;3;4","//f\n5;3;4"})
+    @ValueSource(strings = {"//;\\n5;3;4","//A\\n5;3;4","//3\\n5;3;4","//f\\n5;3;4"})
     void getType_CUSTOM(String input) throws Exception {
         //when
         CalcType calcType = addCal.getType(input);

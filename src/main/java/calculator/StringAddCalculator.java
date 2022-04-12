@@ -36,7 +36,7 @@ public class StringAddCalculator {
         return getType(input) == CalcType.CUSTOM;
     }
     public CalcType getType(String input) {
-        Matcher matcher = Pattern.compile("//(.)\\n(.*)").matcher(input);
+        Matcher matcher = Pattern.compile("//(.)\\\\n(.*)").matcher(input);
         if(matcher.matches()){
             return CalcType.CUSTOM;
         }
@@ -53,7 +53,7 @@ public class StringAddCalculator {
     }
 
     private String[] getNumsByCustom(String input) {
-        Matcher matcher = Pattern.compile("//(.)\\n(.*)").matcher(input);
+        Matcher matcher = Pattern.compile("//(.)\\\\n(.*)").matcher(input);
         String[] tokens = null;
 
         if (matcher.find()) {
