@@ -15,6 +15,12 @@ public class Cars {
         }
     }
 
+    public void go(){
+        for (Car car : carList){
+            car.go();
+        }
+    }
+
     public List<Car> getCarList() {
         return carList;
     }
