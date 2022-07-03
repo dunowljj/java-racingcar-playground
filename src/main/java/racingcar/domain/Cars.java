@@ -24,4 +24,33 @@ public class Cars {
             car.move(movingStrategy);
         }
     }
+
+    public List<String> getWinnerList() {
+        List<String> winnerList = new ArrayList<>();
+        int maxPosition = getMaxPosition();
+
+        return findWinners(winnerList, maxPosition);
+    }
+
+    private List<String> findWinners(List<String> winnerList, int maxPosition) {
+        for (int i = 0; i < cars.size(); i++) {
+            Car car = cars.get(i);
+            if (car.getPosition() == maxPosition) {
+                winnerList.add(car.getName());
+            }
+        }
+        return winnerList;
+    }
+
+    private int getMaxPosition() {
+        int maxPosition = 0;
+        for (Car car : cars) {
+            maxPosition = Math.max(maxPosition, car.getPosition());
+        }
+        return maxPosition;
+    }
+
+    public Car getCar(int i) {
+        return cars.get(i);
+    }
 }
