@@ -1,3 +1,5 @@
+package racingcar.view;
+
 public class InputView {
 
     private void requireNames() {
