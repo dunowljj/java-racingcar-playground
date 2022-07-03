@@ -1,6 +1,5 @@
 package racingcar.domain;
 
-
 public class Car {
     private final Name name;
     private Position position;
@@ -15,5 +14,10 @@ public class Car {
 
     public int getPosition() {
         return position.getPosition();
+    }
+    public void move(MovingStrategy movingStrategy) {
+        if (movingStrategy.movable()) {
+            position.move();
+        }
     }
 }

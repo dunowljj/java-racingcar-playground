@@ -18,4 +18,10 @@ public class Cars {
     public List<Car> getCarsList() {
         return cars;
     }
+
+    public void move(MovingStrategy movingStrategy) {
+        for (Car car : cars) {
+            car.move(movingStrategy);
+        }
+    }
 }
