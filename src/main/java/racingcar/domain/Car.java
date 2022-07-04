@@ -1,9 +1,14 @@
 package racingcar.domain;
 
+import racingcar.utils.InputUtils;
+
 public class Car {
     private final Name name;
     private Position position;
     public Car(String name) {
+        if (InputUtils.isBlank(name)) {
+            throw new IllegalArgumentException("공백이 입력되었습니다.");
+        }
         this.name = new Name(name);
         this.position = new Position();
     }

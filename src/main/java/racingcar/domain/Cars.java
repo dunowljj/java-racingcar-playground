@@ -13,6 +13,9 @@ public class Cars {
         for (String name : names) {
             cars.add(new Car(name));
         }
+        if (cars.size() == 1) {
+            throw new IllegalArgumentException("1개의 자동차로는 경주를 할 수 없습니다.");
+        }
     }
 
     public void move(MovingStrategy movingStrategy) {

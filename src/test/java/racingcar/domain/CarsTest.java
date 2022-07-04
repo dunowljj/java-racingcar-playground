@@ -8,12 +8,17 @@ import static org.assertj.core.api.Assertions.*;
 public class CarsTest {
     @Test
     void Cars_이름들_입력받기() {
-        //given
+        //given, when
         Cars cars = new Cars("pobi,crong,honux");
-        List<Car> carsList = cars.getCarsList();
 
-        //when, then
-        assertThat(carsList).map(Car::getName).containsExactly("pobi", "crong", "honux");
+        //then
+        assertThat(cars.getCarsList()).map(Car::getName).containsExactly("pobi", "crong", "honux");
+    }
+    @Test
+    void Cars_이름_1개_입력시_예외던지기() {
+        assertThatThrownBy(() -> new Cars("pobi"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("1개의 자동차로는 경주를 할 수 없습니다.");
     }
 
     @Test
