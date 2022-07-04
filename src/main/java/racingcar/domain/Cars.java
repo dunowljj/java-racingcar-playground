@@ -15,23 +15,27 @@ public class Cars {
         }
     }
 
-    public List<Car> getCarsList() {
-        return cars;
-    }
-
     public void move(MovingStrategy movingStrategy) {
         for (Car car : cars) {
             car.move(movingStrategy);
         }
     }
 
-    public List<String> getWinnerList() {
+    public String getWinners() {
+        List<String> winnerList = getWinnerList();
+        StringBuilder names = new StringBuilder();
+        for (String winner : winnerList) {
+            names.append(winner).append(", ");
+        }
+        names.deleteCharAt(names.lastIndexOf(","));
+        return names.toString().trim();
+    }
+    protected List<String> getWinnerList() {
         List<String> winnerList = new ArrayList<>();
         int maxPosition = getMaxPosition();
 
         return findWinners(winnerList, maxPosition);
     }
-
     private List<String> findWinners(List<String> winnerList, int maxPosition) {
         for (int i = 0; i < cars.size(); i++) {
             Car car = cars.get(i);
@@ -41,13 +45,17 @@ public class Cars {
         }
         return winnerList;
     }
-
     private int getMaxPosition() {
         int maxPosition = 0;
         for (Car car : cars) {
             maxPosition = Math.max(maxPosition, car.getPosition());
         }
         return maxPosition;
+    }
+
+
+    public List<Car> getCarsList() {
+        return cars;
     }
 
     public Car getCar(int i) {

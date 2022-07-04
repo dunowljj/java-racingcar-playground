@@ -8,7 +8,8 @@ public class RandomMovingStrategy implements MovingStrategy{
 
     @Override
     public boolean movable() {
-        if (new Random().nextInt(10) >= FOWARD_NUM) {
+        int randomNum = new Random().nextInt(10);
+        if (randomNum >= FOWARD_NUM) {
             return true;
         }
         return false;

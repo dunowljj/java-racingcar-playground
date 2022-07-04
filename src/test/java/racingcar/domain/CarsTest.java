@@ -68,10 +68,10 @@ public class CarsTest {
         cars.getCar(0).move(() -> true);
         cars.getCar(0).move(() -> true);
         cars.getCar(1).move(() -> true);
-        List<String> winners = cars.getWinnerList();
+        List<String> winnerList = cars.getWinnerList();
 
         //then
-        assertThat(winners).containsExactly("pobi");
+        assertThat(winnerList).containsExactly("pobi");
     }
 
     @Test
@@ -83,9 +83,24 @@ public class CarsTest {
         //when
         cars.getCar(0).move(() -> true);
         cars.getCar(1).move(() -> true);
-        List<String> winners = cars.getWinnerList();
+        List<String> winnerList = cars.getWinnerList();
 
         //then
-        assertThat(winners).containsExactly("pobi", "crong");
+        assertThat(winnerList).containsExactly("pobi", "crong");
+    }
+
+    @Test
+    void Cars_우승자_출력자료() {
+        //given
+        Cars cars = new Cars("pobi,crong,honux");
+
+        //when
+        cars.getCar(0).move(() -> true);
+        cars.getCar(1).move(() -> true);
+
+        String winners = cars.getWinners();
+
+        //then
+        assertThat(winners).isEqualTo("pobi, crong");
     }
 }
