@@ -12,7 +12,7 @@ public class CarsTest {
         Cars cars = new Cars("pobi,crong,honux");
 
         //then
-        assertThat(cars.getCarsList()).map(Car::getName).containsExactly("pobi", "crong", "honux");
+        assertThat(cars.getCarList()).map(Car::getName).containsExactly("pobi", "crong", "honux");
     }
     @Test
     void Cars_이름_1개_입력시_예외던지기() {
@@ -40,13 +40,13 @@ public class CarsTest {
         });
 
         //then
-        assertThat(cars.getCarsList()).map(Car::getPosition).containsExactly(1, 1, 1);
+        assertThat(cars.getCarList()).map(Car::getPosition).containsExactly(1, 1, 1);
     }
     @Test
     void Cars_모두_정지() {
         //given
         Cars cars = new Cars("pobi,crong,honux");
-        List<Car> carsList = cars.getCarsList();
+        List<Car> carsList = cars.getCarList();
         int num = 3;
 
         //when 랜덤 숫자 자리에 임의의 숫자 3 대입
@@ -61,7 +61,7 @@ public class CarsTest {
         });
 
         //then
-        assertThat(cars.getCarsList()).map(Car::getPosition).containsExactly(0, 0, 0);
+        assertThat(cars.getCarList()).map(Car::getPosition).containsExactly(0, 0, 0);
     }
 
     @Test
@@ -107,5 +107,12 @@ public class CarsTest {
 
         //then
         assertThat(winners).isEqualTo("pobi, crong");
+    }
+
+    @Test
+    void Cars_중복이름_예외() {
+        assertThatThrownBy(() -> new Cars("pobi,pobi,honux"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("중복된 이름을 사용할 수 없습니다.");
     }
 }

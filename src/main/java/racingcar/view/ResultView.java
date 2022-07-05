@@ -11,7 +11,7 @@ public class ResultView {
     }
 
     public static void printRace(Cars cars) {
-        for (Car car : cars.getCarsList()) {
+        for (Car car : cars.getCarList()) {
             printName(car);
             printPosition(car);
         }

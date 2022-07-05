@@ -1,25 +1,42 @@
 package racingcar.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Cars {
-    private final List<Car> cars;
+    private final List<Car> carList;
 
     public Cars(String carNames) {
-        cars = new ArrayList<>();
+        carList = new ArrayList<>();
         String[] names = carNames.split(",");
-
         for (String name : names) {
-            cars.add(new Car(name));
+            carList.add(new Car(name));
         }
-        if (cars.size() == 1) {
+        if (isNameAlone()) {
             throw new IllegalArgumentException("1개의 자동차로는 경주를 할 수 없습니다.");
         }
+        if (isNameOverlapped()) {
+            throw new IllegalArgumentException("중복된 이름을 사용할 수 없습니다.");
+        }
+    }
+    private boolean isNameAlone() {
+        return carList.size() == 1;
+    }
+    private boolean isNameOverlapped(){
+        return carList.size() != getDistinctSet().size();
+    }
+    private Set<String> getDistinctSet() {
+        Set<String> set = new HashSet<>();
+        for (Car car : carList) {
+            set.add(car.getName());
+        }
+        return set;
     }
 
     public void move(MovingStrategy movingStrategy) {
-        for (Car car : cars) {
+        for (Car car : carList) {
             car.move(movingStrategy);
         }
     }
@@ -40,8 +57,8 @@ public class Cars {
         return findWinners(winnerList, maxPosition);
     }
     private List<String> findWinners(List<String> winnerList, int maxPosition) {
-        for (int i = 0; i < cars.size(); i++) {
-            Car car = cars.get(i);
+        for (int i = 0; i < carList.size(); i++) {
+            Car car = carList.get(i);
             if (car.getPosition() == maxPosition) {
                 winnerList.add(car.getName());
             }
@@ -50,18 +67,20 @@ public class Cars {
     }
     private int getMaxPosition() {
         int maxPosition = 0;
-        for (Car car : cars) {
+        for (Car car : carList) {
             maxPosition = Math.max(maxPosition, car.getPosition());
         }
         return maxPosition;
     }
 
 
-    public List<Car> getCarsList() {
-        return cars;
+
+
+    public List<Car> getCarList() {
+        return carList;
     }
 
     public Car getCar(int i) {
-        return cars.get(i);
+        return carList.get(i);
     }
 }
