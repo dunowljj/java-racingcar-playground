@@ -9,4 +9,8 @@ public class TryNum {
         }
         this.tryNum = tryNum;
     }
+
+    public int getTryNum() {
+        return tryNum;
+    }
 }
