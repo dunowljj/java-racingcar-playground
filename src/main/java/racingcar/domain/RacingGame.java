@@ -32,7 +32,7 @@ public class RacingGame {
         Cars cars = new Cars(names);
 
         InputView.printRequireRepeat();
-        int num = Integer.parseInt(reader.readLine());
+        String num = reader.readLine();
         TryNum tryNum = new TryNum(num);
 
         ResultView.printTitle();
