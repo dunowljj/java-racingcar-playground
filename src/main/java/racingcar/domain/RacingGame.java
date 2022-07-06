@@ -12,14 +12,8 @@ public class RacingGame {
     public int play() {
         try {
             tryToPlay();
-        } catch (IOException e) {
-            System.out.println("입출력 오류입니다. 처음부터 다시 입력해주세요.\n---");
-            return play();
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage()+" 처음부터 다시 입력해주세요.\n---");
-            return play();
-        } catch (InterruptedException e) {
-            System.out.println("InterruptedException 처음부터 다시 입력해주세요.\n---");
             return play();
         }
         return 1;
